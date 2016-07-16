@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DOMAIN=$1
-WEBROOT="/srv/www/$DOMAIN/html"
+WEBROOT="/srv/www/"
 #CERTPATH="/etc/letsencrypt"
 MAIL="webmaster@$DOMAIN"
 
