@@ -1,23 +1,24 @@
 #!/bin/bash
 
-DOMAIN=$1
 WEBROOT="/srv/www/"
 #CERTPATH="/etc/letsencrypt"
-MAIL="webmaster@$DOMAIN"
+[ $MAIL ] || MAIL="webmaster@$DOMAIN"
+[ $ROOTDOMAIN ] || $ROOTDOMAIN=1
 
-if [ ! $1 ] || [ $1 == "-h" ] || [ $1 == "--help" ]
+
+if [ ! $DOMAIN ]
 then
-  echo "Usage: $0 <domain name> [ 0 | 1 ]"
-  echo "Please define domain name without www. prefix!"
-  echo "If you wouldn't use www. prefix, please set 2nd params to 0"
-  echo "Example: "
-  echo "$0 mydomain.com 0"
-  echo "OR"
-  echo "$0 mydomain.com"
+  echo "Usage:"
+  echo "Root domain: DOMAIN=<domain name> && $0 \$DOMAIN"
+  echo "  Example: DOMAIN=example.com && $0 \$DOMAIN"
+  echo "  For example.com and www.example.com"
+  echo "Subdomain: DOMAIN=<subdomain name> && $0 \$DOMAIN"
+  echo "  Example: ROOTDOMAIN=0 && DOMAIN=test.example.com && $0 \$DOMAIN"
+  
   exit 1
 fi
 
-if [ ! -z $2 ] && [ $2 -eq 1 ]
+if [ $ROOTDOMAIN -eq 1 ]
 then
   # with www
   DOMAINPARAMS="-d $DOMAIN -d www.$DOMAIN"

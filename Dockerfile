@@ -7,3 +7,4 @@ VOLUME /etc/letsencrypt/
 COPY files/*.sh /opt/
 RUN chmod 755 /opt/*.sh
 
+ENTRYPOINT /bin/bash

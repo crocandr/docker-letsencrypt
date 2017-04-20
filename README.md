@@ -3,7 +3,7 @@
 ## Build
 
 ```
-docker built -t my/letsencrypt .
+docker built -t croc/letsencrypt .
 ```
 
 ## Run
@@ -11,8 +11,13 @@ docker built -t my/letsencrypt .
 From your build:
 
 ```
-docker run -tid --name=letsencrypt -v /srv/nginx/ssl:/etc/letsencrypt -v /srv/nginx/web:/srv/www my/letsencrypt /opt/start.sh
+docker run -tid --name=letsencrypt -v /srv/nginx/ssl:/etc/letsencrypt -v /srv/nginx/web:/srv/www -e MAIL=webmaster@mydomain.com -e ROOTDOMAIN=1 -e DOMAIN=mydomain.com croc/letsencrypt
 ```
+
+Env. variables:
+  - `MAIL` - your mail address
+  - `ROOTDOMAIN` - this is an optional variable, 1 - you got cert for yourdomain.com and www.mydomain.com, 0 - you got cert only for test.mydomain.com
+  - `DOMAIN` - the name of your domain (example: mydomain.com, test.mydomain.com ... )
 
 Folders:
 
@@ -23,16 +28,15 @@ Folders:
 
 ##
 
-The container generates cert with this script.
+The container generates and renews SSL/HTTPS certficiation for domain with this script that is defined in environment variable.
 
 ```
-docker exec -ti letsencrypt /opt/letsencrypt-gen.sh myblog.mydomain.com 0
+docker exec -ti letsencrypt /opt/letsencrypt-gen.sh
 ```
 
   - `/opt/letsencrypt-gen.sh` - the generator script
-  - `myblog.mydomain.com` - is the name of your domain
-  - `0` - you can choose the generator script uses `www.` prefix with your domain or not
-    Example:
-      - `1` - the script generates SSL cert for `mydomain.com` and `www.mydomain.com`
-      - `0` - the script generates SSL cert only for `mydomain.com` or your subdomain, etc...
 
+
+Good Luck!
+
+Check my Github WIKI page for examples.
